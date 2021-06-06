@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+body {
+    background-color: rgb(5, 155, 155);
+}
+
+#sec-one {
+    float: left;
+    width: 50%;
+}
+
+#sec-two {
+    float: right;
+    width: 33%;
+}
+
+img {
+    display: inline-block;
+    width: 30%;
+    height: 300px;
+}
+
+ul {
+    width: 100%;
+    background-color: cornsilk;
+}
+
+li {
+    font-size: 20px;
+    font-weight: bold;
+    list-style: none;
+    color: rgb(5, 155, 155);
+}
+
+button {
+    display: none;
+}
