@@ -9,6 +9,8 @@ let centerIndex;
 let rightIndex;
 let showButton = document.getElementById("btn");
 let rounds = 25;
+let arrOfNames = [];
+let arrOfVotes = [];
 
 let countsClick = 0;
 
@@ -18,6 +20,7 @@ function ProductImage(name, source) {
     this.votes = 0;
     this.shown = 0;
     ProductImage.allProducts.push(this);
+    arrOfNames.push(this.name)
 }
 
 ProductImage.allProducts = [];
@@ -42,19 +45,25 @@ new ProductImage('usb', 'images/usb.gif');
 new ProductImage('water-can', 'images/water-can.jpg');
 new ProductImage('wine-glass', 'images/wine-glass.jpg');
 
+function indexImg(left, center, right) {
 
-function indexImg() {
     leftIndex = generateRandomIndex();
     centerIndex = generateRandomIndex();
     rightIndex = generateRandomIndex();
 
+    while (leftIndex === left || leftIndex === center || leftIndex === right || centerIndex === left || centerIndex === center || centerIndex === right || rightIndex === left || rightIndex === center || rightIndex === right) {
+        leftIndex = generateRandomIndex();
+        centerIndex = generateRandomIndex();
+        rightIndex = generateRandomIndex();
+    }
 }
 
 function displayThreeImages() {
-    indexImg()
+
+    indexImg(leftIndex, centerIndex, rightIndex)
 
     while (leftIndex === rightIndex || leftIndex === centerIndex || rightIndex === centerIndex) {
-        indexImg()
+        indexImg(leftIndex, centerIndex, rightIndex)
     }
 
     leftImageElement.setAttribute('src', ProductImage.allProducts[leftIndex].source);
@@ -63,6 +72,7 @@ function displayThreeImages() {
     ProductImage.allProducts[leftIndex].shown++
         ProductImage.allProducts[centerIndex].shown++
         ProductImage.allProducts[rightIndex].shown++
+
 
 }
 displayThreeImages();
@@ -86,17 +96,25 @@ function handleClicking(event) {
 
         if (event.target.id === 'left-image') {
             ProductImage.allProducts[leftIndex].votes++;
+            arrOfVotes.push(ProductImage.allProducts[leftIndex].votes)
 
         } else if (event.target.id === 'right-image') {
             ProductImage.allProducts[rightIndex].votes++;
+            arrOfVotes.push(ProductImage.allProducts[rightIndex].votes)
+
         } else if (event.target.id === 'center-image') {
             ProductImage.allProducts[centerIndex].votes++;
+            arrOfVotes.push(ProductImage.allProducts[centerIndex].votes)
+
         }
         displayThreeImages();
     } else {
         showButton.style.display = "block"
         showButton.style.backgroundColor = "green"
-        showButton.onclick = function() { gettingList() };
+        showButton.onclick = function() {
+            gettingList()
+            gettingChart()
+        };
         leftImageElement.removeEventListener('click', handleClicking);
         centerImageElement.removeEventListener('click', handleClicking);
         rightImageElement.removeEventListener('click', handleClicking);
@@ -105,13 +123,42 @@ function handleClicking(event) {
 }
 
 
+let arrOfSeen = [];
 
 function gettingList() {
     let ul = document.getElementById('unList');
     for (let i = 0; i < ProductImage.allProducts.length; i++) {
+        arrOfSeen.push(ProductImage.allProducts[i].shown);
         let li = document.createElement('li');
         ul.appendChild(li);
         li.textContent = `${ProductImage.allProducts[i].name} has ${ProductImage.allProducts[i].votes} Votes and ${ProductImage.allProducts[i].shown} shown`;
     }
 
+}
+
+function gettingChart() {
+
+
+    let ctx = document.getElementById('myChart')
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: arrOfNames,
+            datasets: [{
+                label: '# of Votes',
+                data: arrOfVotes,
+                backgroundColor: [
+                    'rgba(255, 99, 132)',
+                ],
+                borderWidth: 1
+            }, {
+                label: '# of Seen',
+                data: arrOfSeen,
+                backgroundColor: [
+                    'rgba(255, 0, 0)',
+                ],
+                borderWidth: 2
+            }]
+        },
+    });
 }
