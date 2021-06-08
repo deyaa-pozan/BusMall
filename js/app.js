@@ -30,12 +30,10 @@ function ProductImage(name, source) {
 
 
 }
-console.log(localStorage.getItem('Product'));
 
 let allProducts = []
-allProducts.length = 26
+allProducts.length = 19
 allProducts.fill({ shown: 0, votes: 0 })
-console.log(allProducts);
 if (localStorage.getItem('Product') == null) {
     localStorage.setItem('Product', allProducts);
 }
@@ -63,12 +61,11 @@ allProducts = [
 
 
 function savingProduct() {
-    // console.log(JSON);
     let convertedArr = JSON.stringify(allProducts);
-    // is the way to communicate to the local storage 
+
     localStorage.setItem('Product', convertedArr);
 
-    // [Object object] [{name: 'bashar'}] => [{"name":"bashar"}]
+
 }
 
 function setvotes(index) {
