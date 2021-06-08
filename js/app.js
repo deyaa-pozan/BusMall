@@ -30,12 +30,10 @@ function ProductImage(name, source) {
 
 
 }
-console.log(localStorage.getItem('Product'));
 
 let allProducts = []
 allProducts.length = 19
 allProducts.fill({ shown: 0, votes: 0 })
-console.log(allProducts);
 if (localStorage.getItem('Product') == null) {
     localStorage.setItem('Product', allProducts);
 }
