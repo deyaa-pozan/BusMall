@@ -14,11 +14,13 @@ body {
 #sec-one {
     float: left;
     width: 50%;
+    margin-left: 27%;
 }
 
 #sec-two {
-    float: right;
-    width: 33%;
+    width: auto;
+    margin-top: 240px;
+    height: auto;
 }
 
 img {
@@ -41,4 +43,22 @@ li {
 
 button {
     display: none;
+    margin-left: 46%;
+}
+
+#btn-remove {
+    margin-left: 46%;
+    background-color: red;
+}
+
+div {
+    max-width: 960px;
+}
+
+#sec-one img {
+    display: inline-block;
+    max-width: 200px;
+    height: 200px;
+    width: 30%;
+    margin: 1%;
 }
