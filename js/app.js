@@ -19,22 +19,27 @@ function ProductImage(name, source) {
     this.source = source;
     this.votes = 0;
     this.shown = 0;
-    ProductImage.allProducts.push(this);
     arrOfNames.push(this.name)
         // If this item exists in localstorg don't add it
-    if (JSON.parse(localStorage.getItem("Product") == null)) {
+    if (JSON.parse(localStorage.getItem('Product').includes(this))) {
         savingProduct()
     }
-    if (JSON.parse(localStorage.getItem("Product").includes(this))) {
-        savingProduct()
 
-    }
+
+
 
 
 }
+console.log(localStorage.getItem('Product'));
 
-ProductImage.allProducts = [
-
+let allProducts = []
+allProducts.length = 26
+allProducts.fill({ shown: 0, votes: 0 })
+console.log(allProducts);
+if (localStorage.getItem('Product') == null) {
+    localStorage.setItem('Product', allProducts);
+}
+allProducts = [
     new ProductImage('bag', 'images/bag.jpg'),
     new ProductImage('banana', 'images/banana.jpg'),
     new ProductImage('bathroom', 'images/bathroom.jpg'),
@@ -47,18 +52,19 @@ ProductImage.allProducts = [
     new ProductImage('pen', 'images/pen.jpg'),
     new ProductImage('pet-sweep', 'images/pet-sweep.jpg'),
     new ProductImage('scissors', 'images/scissors.jpg'),
-    new ProductImage('shark', 'images/shark.jpg')
-    new ProductImage('sweep', 'images/sweep.png');
-    new ProductImage('tauntaun', 'images/tauntaun.jpg');
-    new ProductImage('unicorn', 'images/unicorn.jpg');
-    new ProductImage('usb', 'images/usb.gif');
-    new ProductImage('water-can', 'images/water-can.jpg');
-    new ProductImage('wine-glass', 'images/wine-glass.jpg');
+    new ProductImage('shark', 'images/shark.jpg'),
+    new ProductImage('sweep', 'images/sweep.png'),
+    new ProductImage('tauntaun', 'images/tauntaun.jpg'),
+    new ProductImage('unicorn', 'images/unicorn.jpg'),
+    new ProductImage('usb', 'images/usb.gif'),
+    new ProductImage('water-can', 'images/water-can.jpg'),
+    new ProductImage('wine-glass', 'images/wine-glass.jpg')
 ];
+
 
 function savingProduct() {
     // console.log(JSON);
-    let convertedArr = JSON.stringify(ProductImage.allProducts);
+    let convertedArr = JSON.stringify(allProducts);
     // is the way to communicate to the local storage 
     localStorage.setItem('Product', convertedArr);
 
@@ -106,9 +112,9 @@ function displayThreeImages() {
     }
 
 
-    leftImageElement.setAttribute('src', ProductImage.allProducts[leftIndex].source);
-    centerImageElement.src = ProductImage.allProducts[centerIndex].source;
-    rightImageElement.src = ProductImage.allProducts[rightIndex].source;
+    leftImageElement.setAttribute('src', allProducts[leftIndex].source);
+    centerImageElement.src = allProducts[centerIndex].source;
+    rightImageElement.src = allProducts[rightIndex].source;
     setshown(leftIndex, centerIndex, rightIndex);
     // ProductImage.allProducts[leftIndex].shown++
     //     ProductImage.allProducts[centerIndex].shown++
@@ -120,7 +126,7 @@ displayThreeImages();
 
 
 function generateRandomIndex() {
-    let randomIndex = Math.floor(Math.random() * ProductImage.allProducts.length);
+    let randomIndex = Math.floor(Math.random() * allProducts.length);
     return randomIndex;
 
 }
@@ -159,10 +165,13 @@ function handleClicking(event) {
             gettingList()
             gettingChart()
 
+
         };
+
         leftImageElement.removeEventListener('click', handleClicking);
         centerImageElement.removeEventListener('click', handleClicking);
         rightImageElement.removeEventListener('click', handleClicking);
+
     }
 
 }
@@ -172,14 +181,14 @@ let arrOfSeen = [];
 
 function gettingList() {
     let ul = document.getElementById('unList');
-    for (let i = 0; i < ProductImage.allProducts.length; i++) {
+    for (let i = 0; i < allProducts.length; i++) {
         // arrOfSeen.push(ProductImage.allProducts[i].shown);
         let li = document.createElement('li');
         ul.appendChild(li);
         let localArray = JSON.parse(localStorage.getItem('Product'))
         let arrOfVotes = localArray.map(x => x.votes);
         let arrOfSeen = localArray.map(x => x.shown);
-        li.textContent = `${ProductImage.allProducts[i].name} has ${arrOfVotes[i]} Votes and ${arrOfSeen[i]} shown`;
+        li.textContent = `${allProducts[i].name} has ${arrOfVotes[i]} Votes and ${arrOfSeen[i]} shown`;
     }
 
 }
